@@ -20799,6 +20799,9 @@ with pkgs;
 
   mfcj470dw-cupswrapper = callPackage ../misc/cups/drivers/mfcj470dwcupswrapper { };
   mfcj470dwlpr = callPackage_i686 ../misc/cups/drivers/mfcj470dwlpr { };
+  
+  mfcj5320dw-cupswrapper = callPackage ../misc/cups/drivers/mfcj5320dwcupswrapper { };
+  mfcj5320dwlpr = callPackage_i686 ../misc/cups/drivers/mfcj5320dwlpr { };
 
   mfcj6510dw-cupswrapper = callPackage ../misc/cups/drivers/mfcj6510dwcupswrapper { };
   mfcj6510dwlpr = callPackage_i686 ../misc/cups/drivers/mfcj6510dwlpr { };
