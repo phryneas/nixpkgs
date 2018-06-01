@@ -15,6 +15,7 @@ stdenv.mkDerivation rec {
 
   prePatch = ''
     substituteInPlace Makefile --replace 2711 0711
+    substituteInPlace iface.c --replace 'LIBEXECDIR "/utempter/utempter"' '"/run/wrappers/bin/utempter"'
   '';
 
   installFlags = [
@@ -26,6 +27,17 @@ stdenv.mkDerivation rec {
 
   meta = {
     description = "Interface for terminal emulators such as screen and xterm to record user sessions to utmp and wtmp files";
+    longDescription = ''
+    Requires a wrapper to work.
+    Example:
+    security.wrappers.utempter = {
+      source = "''${pkgs.libutempter}/lib/utempter/utempter";
+      owner = "nobody";
+      group = "utmp";
+      setuid = false;
+      setgid = true;
+    };
+    '';
     license = licenses.lgpl21Plus;
     platforms = platforms.linux;
     maintainers = [ maintainers.msteen ];
