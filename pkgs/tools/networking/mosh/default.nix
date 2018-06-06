@@ -1,6 +1,6 @@
 { lib, stdenv, fetchurl, zlib, protobuf, ncurses, pkgconfig, IOTty
 , makeWrapper, perl, openssl, autoreconfHook, openssh, bash-completion
-, libutempter, withUtempter ? false }:
+, libutempter, withUtempter ? true }:
 
 stdenv.mkDerivation rec {
   name = "mosh-1.3.2";
@@ -13,10 +13,16 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ autoreconfHook pkgconfig ];
   buildInputs = [ protobuf ncurses zlib IOTty makeWrapper perl openssl bash-completion ] ++ lib.optional withUtempter libutempter;
 
-  patches = [ ./ssh_path.patch ];
+  patches = [ ./ssh_path.patch ./utempter_path.patch ];
   postPatch = ''
     substituteInPlace scripts/mosh.pl \
         --subst-var-by ssh "${openssh}/bin/ssh"
+  '';
+
+  postFixup = lib.optionalString withUtempter ''
+    wrapProgram $out/bin/mosh-server \
+      --prefix PATH : "/run/wrappers/bin" \
+      --suffix PATH : "${libutempter}/lib/utempter"
   '';
 
   configureFlags = [ "--enable-completion" ] ++ lib.optional withUtempter "--with-utempter";
