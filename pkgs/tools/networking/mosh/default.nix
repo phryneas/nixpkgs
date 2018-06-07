@@ -19,12 +19,6 @@ stdenv.mkDerivation rec {
         --subst-var-by ssh "${openssh}/bin/ssh"
   '';
 
-  postFixup = lib.optionalString withUtempter ''
-    wrapProgram $out/bin/mosh-server \
-      --prefix PATH : "/run/wrappers/bin" \
-      --suffix PATH : "${libutempter}/lib/utempter"
-  '';
-
   configureFlags = [ "--enable-completion" ] ++ lib.optional withUtempter "--with-utempter";
 
   postInstall = ''
