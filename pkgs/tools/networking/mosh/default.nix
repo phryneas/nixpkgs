@@ -1,6 +1,6 @@
 { lib, stdenv, fetchurl, zlib, protobuf, ncurses, pkgconfig, IOTty
 , makeWrapper, perl, openssl, autoreconfHook, openssh, bash-completion
-, libutempter, withUtempter ? true }:
+, libutempter ? null, withUtempter ? stdenv.isLinux }:
 
 stdenv.mkDerivation rec {
   name = "mosh-1.3.2";
